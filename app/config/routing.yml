@@ -1,0 +1,5 @@
+kifland:
+    resource: "@KiflandBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
