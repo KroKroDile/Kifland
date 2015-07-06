@@ -121,8 +121,12 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
 
         // appart_kifland_default_index
-        if (0 === strpos($pathinfo, '/hello') && preg_match('#^/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
-            return $this->mergeDefaults(array_replace($matches, array('_route' => 'appart_kifland_default_index')), array (  '_controller' => 'Appart\\KiflandBundle\\Controller\\DefaultController::indexAction',));
+        if (rtrim($pathinfo, '/') === '') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'appart_kifland_default_index');
+            }
+
+            return array (  '_controller' => 'Appart\\KiflandBundle\\Controller\\DefaultController::indexAction',  '_route' => 'appart_kifland_default_index',);
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
